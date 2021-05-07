@@ -22,7 +22,7 @@ const char* wordMap[10] = {
 /** Converts a numeral character to its corresponding integer value. */
 int charToInt(char c)
 {
-	return c - 48; // c - 48 = actual number, due to ASCII ('0' is 48)
+	return c - '0';
 }
 
 int main(void)
@@ -30,7 +30,7 @@ int main(void)
 	char number[NUMBER_LENGTH];
 
 	printf("\nEnter a number (max %i digits): ", NUMBER_LENGTH-1);
-		scanf("%10s", number); // yeah boss idk how to make this variable-length
+		scanf("%10s", number);
 
 	println();
 

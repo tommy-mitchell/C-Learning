@@ -1,0 +1,55 @@
+#include <stdio.h>
+#include <limits.h>
+
+#define INT_LENGTH (sizeof(int)*CHAR_BIT)
+typedef unsigned int uint;
+
+/**
+ * Determines if a given bit pattern is contained within a number.
+ * 
+ * @param number        The number to search within.
+ * @param pattern       The pattern to search for.
+ * @param patternLength The length of the pattern, in bits. Gives an error if <= 0, or >= the number of bits in an int.
+ * 
+ * @returns The index of the pattern, if found, where 0 is the MSB. Returns -1 if not found or in error.
+ * 
+ */
+int bitPatternSearch(uint number, int pattern, int patternLength)
+{
+    if(patternLength <= 0 || patternLength >= INT_LENGTH)
+    {
+        printf("Length out of bounds.\n");
+        return -1;
+    }
+
+    const int mask = (1 << patternLength) - 1; // a mask of 1s for all bits not tested for
+
+    for(int index = 0; index < INT_LENGTH-1; index++)
+    {
+        int shiftAmount = INT_LENGTH - patternLength - index;
+        uint  maskedNum = (number >> shiftAmount) & mask;
+
+        if(!(maskedNum ^ pattern)) // compares the necessary bits to the pattern (gives 0 if same -> !)
+            return index;
+    }
+
+    return -1;
+}
+
+int main(void)
+{
+    const uint number = 0xABCDEF12u;
+    const int pattern = 0xAB;
+    const int  length = 8;
+
+    int index = bitPatternSearch(number, pattern, length);
+    
+    printf("\nThe pattern 0x%X was %s in the number 0x%X", pattern, index!=-1 ? "found" : "not found", number);
+
+    if(index!=-1)
+        printf(" at index %i", index);
+
+    printf(".\n");
+
+    return 0;
+}

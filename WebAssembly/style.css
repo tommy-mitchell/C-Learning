@@ -125,3 +125,15 @@ a:hover {
         width: 20px;    
     }
 }
+
+blockquote {
+    background: var(--background-alt);
+    border-left: 10px solid var(--button-hover);
+    margin: 1em 10px;
+    margin-right: -.25em;
+}
+
+blockquote > ol {
+    padding-top: .5em;
+    padding-bottom: .5em;
+}

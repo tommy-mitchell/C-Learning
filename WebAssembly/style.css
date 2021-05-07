@@ -32,7 +32,7 @@ h1 {
     font-weight: 600;
 }
 
-#header {
+.header {
     background: var(--background-alt);
     margin: 10px -2%;
     padding: 1px 5px 6px;
@@ -41,7 +41,7 @@ h1 {
     font-size: 120%;
 }
 
-#header > * {
+.header > * {
     display: inline-flex;
     vertical-align: middle;
 }

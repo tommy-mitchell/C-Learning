@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en-US">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width">
+
+        <script defer src="/WebAssembly/WASI/wasi-memory-manager.js"></script>
+        <script defer src="/WebAssembly/WASI/wasi.js"></script>
+        <script defer src="intSize.js"></script>
+
+        <title>Int Size Test</title>
+        <link rel="stylesheet" href="/WebAssembly/style.css">
+    </head>
+    <body>
+        <h1>How many bits are in an 'int'?</h1>
+        
+        <div id="header">
+            <h3>Output: </h3>
+            <button id="run">Run</button>
+        </div>
+
+        <div id="Output">
+            <div class="waiting">> . </div>
+        </div>
+
+        <p id="src">Source: <a href="/C Code/Bitwise Operators/Int Size/intSize.c">intSize.c</a></p>
+    </body>
+</html>

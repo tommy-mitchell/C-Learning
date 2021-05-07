@@ -1,1 +1,8 @@
-theme: jekyll-theme-cayman
+remote_theme: "dracula/gh-pages"
+title: "C Demos"
+
+plugins:
+  - jekyll-relative-links
+relative_links:
+  enabled: true
+  collections: true

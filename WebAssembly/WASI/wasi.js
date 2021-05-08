@@ -195,6 +195,12 @@ class Wasi
 
 		return WASI_ESUCCESS;
 	}
+
+	/*args_sizes_get = (argc, argvBuf) => {
+		// argv: 
+	}
+
+	args_get*/
 }
 
 // override console.log() to instead write in output on page

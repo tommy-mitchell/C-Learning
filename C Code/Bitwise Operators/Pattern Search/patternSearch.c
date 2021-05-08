@@ -1,8 +1,45 @@
 #include <stdio.h>
 #include <limits.h>
+#include <stdlib.h>
+#include <math.h>
 
-#define INT_LENGTH (sizeof(int)*CHAR_BIT)
+#define INT_LENGTH (sizeof(int) * CHAR_BIT)
 typedef unsigned int uint;
+
+int bitPatternSearch(uint number, int pattern, int patternLength);
+
+int main(int argc, char *argv[])
+{
+    uint number  = 0;
+    int  pattern = 0;
+    int  length  = 0;
+
+    if(argc > 1)
+    {
+        number  = strtol(argv[1], NULL, 16);
+        pattern = strtol(argv[2], NULL, 16);
+        length  = (int) log2(pattern) + 1;
+    }
+    else
+    {
+        number  = 0xABCDEF12u;
+        pattern = 0xAB;
+        length  = 8;
+
+        printf("\nUsing number 0x%X, searching for pattern 0x%X.\n", number, pattern);
+    }
+
+    int index = bitPatternSearch(number, pattern, length);
+    
+    printf("\nThe pattern 0x%X was %s in the number 0x%X", pattern, index != -1 ? "found" : "not found", number);
+
+    if(index != -1)
+        printf(" at index %i", index);
+
+    printf(".\n");
+
+    return 0;
+}
 
 /**
  * Determines if a given bit pattern is contained within a number.
@@ -24,7 +61,7 @@ int bitPatternSearch(uint number, int pattern, int patternLength)
 
     const int mask = (1 << patternLength) - 1; // a mask of 1s for all bits not tested for
 
-    for(int index = 0; index < INT_LENGTH-1; index++)
+    for(int index = 0; index < INT_LENGTH - 1; index++)
     {
         int shiftAmount = INT_LENGTH - patternLength - index;
         uint  maskedNum = (number >> shiftAmount) & mask;
@@ -34,22 +71,4 @@ int bitPatternSearch(uint number, int pattern, int patternLength)
     }
 
     return -1;
-}
-
-int main(void)
-{
-    const uint number = 0xABCDEF12u;
-    const int pattern = 0xAB;
-    const int  length = 8;
-
-    int index = bitPatternSearch(number, pattern, length);
-    
-    printf("\nThe pattern 0x%X was %s in the number 0x%X", pattern, index!=-1 ? "found" : "not found", number);
-
-    if(index!=-1)
-        printf(" at index %i", index);
-
-    printf(".\n");
-
-    return 0;
 }

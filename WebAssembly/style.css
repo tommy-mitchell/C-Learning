@@ -136,4 +136,9 @@ blockquote {
 blockquote > ol {
     padding-top: .5em;
     padding-bottom: .5em;
+    padding-left: 30px;
+}
+
+blockquote > ol > li {
+    padding-left: 3px;
 }

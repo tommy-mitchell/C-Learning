@@ -28,9 +28,9 @@ async function main()
         await WebAssembly.instantiateStreaming(fetch("patternSearch.wasm"), { wasi_snapshot_preview1: wasi }).then(obj => {
             // Initialise the wasi instance
             wasi.init(obj.instance);
-            wasi.instance.exports.main("ABCDEF12", "AB");
+            wasi.instance.exports.__main_argc_argv("ABCDEF12", "AB");
         });
     }
     else
-        wasi.instance.exports.main("ABCDEF12", "AB");
+        wasi.instance.exports.__main_argc_argv("ABCDEF12", "AB");
 }

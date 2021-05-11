@@ -210,6 +210,6 @@ window.console = {
 
 		var node = document.createElement("div");
 		node.appendChild(document.createTextNode(str));
-		document.getElementById("Output").appendChild(node);
+		document.getElementById("output").appendChild(node);
 	}
 }

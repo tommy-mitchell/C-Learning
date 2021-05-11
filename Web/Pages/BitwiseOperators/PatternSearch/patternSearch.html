@@ -4,12 +4,12 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width">
 
-        <script defer src="/C-Learning/WebAssembly/WASI/wasi-memory-manager.js"></script>
-        <script defer src="/C-Learning/WebAssembly/WASI/wasi.js"></script>
+        <script defer src="../../../WASI/wasi-memory-manager.js"></script>
+        <script defer src="../../../WASI/wasi.js"></script>
         <script defer src="patternSearch.js"></script>
 
         <title>Bit Pattern Search</title>
-        <link rel="stylesheet" href="/C-Learning/WebAssembly/style.css">
+        <link rel="stylesheet" href="../../../style.css">
     </head>
     <body>
         <h1>Bit Pattern Search</h1>
@@ -24,24 +24,36 @@
             <ol start="6">
                 <li>Write a function called bitpat_search() that looks for the occurrence of a specified pattern of bits inside an unsigned int. 
                     The function should take three arguments and should be called as shown:
-
-                    bitpat_search(source, pattern, n)
-
-                    The function searches the integer source, starting at the leftmost bit, to see if the rightmost n bits of pattern occur in source. 
+                <br>
+                <br><i>bitpat_search(source, pattern, n)</i>
+                <br>
+                <br>The function searches the integer source, starting at the leftmost bit, to see if the rightmost n bits of pattern occur in source. 
                     If the pattern is found, have the function return the number of the bit at which the pattern begins, 
                     where the leftmost bit is bit number 0. If the pattern is not found, then have the function return −1.
-
-                    Make certain that the function makes no assumptions about the size of an 'int'.
+                <br>
+                <br>Make certain that the function makes no assumptions about the size of an 'int'.
                 </li>
             </ol>
         </blockquote>
-        
+
+        <div class="header">
+            <h3>Input: </h3>
+        </div>
+
+        <div id="input">
+            <label for="number">Number:</label>
+            <input type="text" maxlength="8" minlength="1" name="number" placeholder="ABCDEF12">
+
+            <label for="pattern">Pattern:</label>
+            <input type="text" maxlength="8" minlength="1" name="pattern" placeholder="AB">
+        </div>
+
         <div class="header">
             <h3>Output: </h3>
             <button id="run">Run</button>
         </div>
 
-        <div id="Output">
+        <div id="output" style="height: 8em;">
             <div class="waiting">> . </div>
         </div>
 

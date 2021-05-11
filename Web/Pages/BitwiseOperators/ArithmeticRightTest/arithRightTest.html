@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en-US">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width">
+        
+        <script defer src="../../../WASI/wasi-memory-manager.js"></script>
+        <script defer src="../../../WASI/wasi.js"></script>
+        <script defer src="arithRightTest.js"></script>
+
+        <title>Arithmetic Right Test</title>
+        <link rel="stylesheet" href="../../../style.css">
+    </head>
+    <body>
+        <h1>Arithmetic Right Test</h1>
+
+        <div class="header">
+            <h3>Overview</h3>
+        </div>
+
+        <p>This program was based on the following exercise from <i>Programming in C</i>, chapter 11:</p>
+
+        <blockquote>
+            <ol start="2">
+                <li>
+                    Write a program that determines whether your particular computer performs an arithmetic or a logical right shift.
+                </li>
+            </ol>
+        </blockquote>
+
+        <div class="header">
+            <h3>Output: </h3>
+            <button id="run">Run</button>
+        </div>
+
+        <div id="output" style="height: 5em;">
+            <div class="waiting">> . </div>
+        </div>
+
+        <p id="src">Source: <a href="https://github.com/tommy-mitchell/C-Learning/blob/master/C Code/Bitwise Operators/Arithmetic Right Test/arithRightTest.c">arithRightTest.c</a></p>
+    </body>
+</html>

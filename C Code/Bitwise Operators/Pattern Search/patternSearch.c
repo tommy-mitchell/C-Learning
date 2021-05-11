@@ -26,7 +26,7 @@ int main(int argc, char *argv[])
         pattern = 0xAB;
         length  = 8;
 
-        printf("\nUsing number 0x%X, searching for pattern 0x%X.\n", number, pattern);
+        printf("Using number 0x%X, searching for pattern 0x%X.\n", number, pattern);
     }
 
     int index = bitPatternSearch(number, pattern, length);

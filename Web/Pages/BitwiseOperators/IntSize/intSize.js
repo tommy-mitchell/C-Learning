@@ -1,5 +1,5 @@
 var button = document.getElementById("run");
-var output = document.getElementById("Output");
+var output = document.getElementById("output");
 
 var waiting = document.createElement("div");
 waiting.className = "waiting";
@@ -7,6 +7,8 @@ waiting.innerHTML = "> . "
 
 button.onclick = () => {
     output.innerHTML = "";
+
+    console.log("Running 'intSize.c'");
     
     setTimeout(() => {
         main().then(() => {
@@ -26,7 +28,7 @@ async function main()
     if(wasi.instance === null)
     {
         await WebAssembly.instantiateStreaming(fetch("intSize.wasm"), { wasi_snapshot_preview1: wasi }).then(obj => {
-            // Initialise the wasi instance
+            // Initialize the wasi instance
             wasi.init(obj.instance);
             wasi.instance.exports.main();
         });

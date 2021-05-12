@@ -6,7 +6,11 @@
         
         <script defer src="../../../WASI/wasi-memory-manager.js"></script>
         <script defer src="../../../WASI/wasi.js"></script>
-        <script defer src="arithRightTest.js"></script>
+        <script defer src="../../../WASI/instance.js"></script>
+        <script>
+            // initialize WASI after page has loaded
+            window.addEventListener("DOMContentLoaded", () => initialize("arithRightTest", () => { main(); }));
+        </script>
 
         <title>Arithmetic Right Test</title>
         <link rel="stylesheet" href="../../../style.css">

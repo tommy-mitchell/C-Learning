@@ -204,12 +204,10 @@ class Wasi
 }
 
 // override console.log() to instead write in output on page
-window.console = {
-	log: function(str){
-		str = "> " + str;
+window.console.log = function(str) {
+	str = "> " + str;
 
-		var node = document.createElement("div");
-		node.appendChild(document.createTextNode(str));
-		document.getElementById("output").appendChild(node);
-	}
+	var node = document.createElement("div");
+	node.appendChild(document.createTextNode(str));
+	document.getElementById("output").appendChild(node);
 }

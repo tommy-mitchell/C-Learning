@@ -39,4 +39,26 @@ class WasiMemoryManager
 
         return buffer;
     }
+
+    // convert an array of JavaScript strings to a pointer to a multi-byte character array
+    convertFromArray(stringArr)
+    {
+        const encoder = new TextEncoder();
+
+        // encode each string in utf-8, store in an array of bytes
+        let bytes = [];
+        stringArr.forEach(string => bytes.push(new Uint8Array(encoder.encode(string), )));
+y = bytes;
+        let length = 0;
+        bytes.forEach(string => length += string.byteLength);
+console.log("length: " + length);
+        const ptr    = this.malloc(length);
+        const buffer = new Uint8Array(this.memory.buffer, ptr, length);
+
+        buffer.set(bytes);
+
+        return buffer;
+    }
 }
+
+var y;

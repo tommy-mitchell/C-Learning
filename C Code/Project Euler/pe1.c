@@ -45,5 +45,5 @@ int main(void)
                        sum(findMultiples(base2, max), numElements(base2, max)) -
                        sum(findMultiples(base1 * base2, max), numElements((base1 * base2), max));
 
-    printf("The sum of all multiples of %i or %i less than %i is %i.", base1, base2, max, sumMultiples);
+    printf("\nThe sum of all multiples of %i or %i less than %i is %i.\n", base1, base2, max, sumMultiples);
 }

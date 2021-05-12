@@ -3,15 +3,25 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-#define ALLOC_INT_ARR(n) (calloc(sizeof(int), n))
-
 typedef struct {
     int *arr;
     int n;
 } intArr;
 
 const int base1 = 1;
-const int base2 = 2; // skips the first calculation, thanks Project Euler?
+const int base2 = 2; // skips the first calculation
+
+intArr generateFibNumbers(int max);
+int evenSum(intArr arr);
+
+int main(void)
+{
+    const int max = 4000000; // 4 mil
+
+    int evenFibSum = evenSum(generateFibNumbers(max));
+
+    printf("\nThe sum of all even Fibonacci numbers less than %i is %i.\n", max, evenFibSum);
+}
 
 /** 
  * Generates all Fibonnaci numbers up to a specificed maximum value.
@@ -23,7 +33,7 @@ const int base2 = 2; // skips the first calculation, thanks Project Euler?
 intArr generateFibNumbers(int max)
 {
     intArr fibNumbers = {
-        ALLOC_INT_ARR(34), // Fib(34) = 9,227,465
+        malloc(34 * sizeof(int)), // Fib(34) = 9,227,465
         max
     };
 
@@ -32,13 +42,13 @@ intArr generateFibNumbers(int max)
 
     for(int index = 2; index < fibNumbers.n; index++)
     {
-        if(fibNumbers.arr[index-1] > max) // didn't calculate number of elements, oh well
+        if(fibNumbers.arr[index - 1] > max)
         {
-            fibNumbers.n = index-1;
+            fibNumbers.n = index - 1;
             break;
         }
 
-        fibNumbers.arr[index] = fibNumbers.arr[index-1] + fibNumbers.arr[index-2];
+        fibNumbers.arr[index] = fibNumbers.arr[index - 1] + fibNumbers.arr[index - 2];
     }
 
     return fibNumbers;
@@ -54,13 +64,4 @@ int evenSum(intArr arr)
             sum += arr.arr[index];
 
     return sum;
-}
-
-int main(void)
-{
-    const int max = 4000000; // 4 mil
-
-    int evenFibSum = evenSum(generateFibNumbers(max));
-
-    printf("The sum of all even Fibonacci numbers less than %i is %i.\n", max, evenFibSum);
 }

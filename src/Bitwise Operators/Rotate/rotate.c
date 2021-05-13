@@ -1,24 +1,38 @@
 #include <stdio.h>
 #include <stdbool.h>
 #include <limits.h>
+#include <stdlib.h>
  
 #define INT_LENGTH (sizeof(int) * CHAR_BIT)
 typedef unsigned int uint;
 
 void rotate(uint *number, int n);
 
-int main(void) // TODO: add CL arguments
+int main(int argc, char* argv[])
 {
+    printf("\n");
+    
     uint number = 0xABCDEF12u;
     int  shiftAmount;
 
-    printf("\nNumber: 0x%X\n\nEnter the number of bits to rotate (+ left, - right): ", number);
-        scanf("%i", &shiftAmount);
-        printf("\n");
+    if(argc > 1)
+    {
+        number      = strtoul(argv[1], NULL, 16);
+        shiftAmount =  strtol(argv[2], NULL, 10);
+    }
+    else
+    {
+        printf("Number: 0x%X\n\n", number);
+        printf("Enter the number of bits to rotate (+ left, - right): ");
+            scanf("%i", &shiftAmount);
+            printf("\n");
+    }
+
+    uint originalNumber = number;
 
     rotate(&number, shiftAmount * sizeof(int));
 
-    printf("The number rotated %i times: 0x%X\n", shiftAmount, number);
+    printf("The number 0x%X rotated %i times: 0x%X\n", originalNumber, shiftAmount, number);
 
     return 0;
 }

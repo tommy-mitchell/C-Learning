@@ -3,7 +3,6 @@
 #include <stdio.h>
 
 #define NUMBER_LENGTH (10 + 1) // length + 1 for null terminator ('\0')
-#define println() printf("\n")
 #define charisNumber(c) (c >= '0' && c <= '9')
 
 const char* wordMap[10] = {
@@ -29,16 +28,16 @@ int main(void)
 {
 	char number[NUMBER_LENGTH];
 
-	printf("\nEnter a number (max %i digits): ", NUMBER_LENGTH-1);
+	printf("\nEnter a number (max %i digits): ", NUMBER_LENGTH - 1);
 		scanf("%10s", number);
 
-	println();
+	printf("\n");
 
 	for(int index = 0; number[index]/*index<NUMBER_LENGTH*/; index++)
 		if(charisNumber(number[index]))
 			printf("%s ", wordMap[charToInt(number[index])]);
 
-	println();
+	printf("\n");
 
 	return 0;
 }

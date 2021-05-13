@@ -7,7 +7,34 @@
         <script defer src="../../../WASI/wasi-memory-manager.js"></script>
         <script defer src="../../../WASI/wasi.js"></script>
         <script defer src="../../../WASI/instance.js"></script>
-        <script defer src="rotate.js"></script>
+        <script>
+            // initialize WASI after page has loaded
+            window.addEventListener("DOMContentLoaded", () => {
+                initialize("rotate", () => {
+                    const  test = (value) => value === "" || isHex(value);
+                    const error =  (name) => `Error: '${name}' must be a hexadecimal number.`;
+
+                    let inputArr = handleInputs([{ name: "number", index: 1, test: test, error: error },
+                                                 { name:   "bits", index: 2, test: () => true }]);
+
+                    if(inputArr[1] === "-1") // incorrect input
+                        console.log("Please correct your inputs.");
+                    else // run
+                    {
+                        if(arr_equals(inputArr, ["", "", ""])) // no inputs provided
+                            wasi.args = [];
+                        else if(inputArr[1] === "") // default first value
+                            wasi.args = [inputArr[0], "ABCDEF12", inputArr[2]];
+                        else if(inputArr[2] === "") // default second value
+                            wasi.args = [inputArr[0], inputArr[1], "AB"];
+                        else // both inputs
+                            wasi.args = [...inputArr];
+
+                        main();
+                    }
+                });
+            });
+        </script>
 
         <title>Bit Rotation</title>
         <link rel="stylesheet" href="../../../style.css">
@@ -53,8 +80,8 @@
             <label for="number">Number:</label>
             <input type="text"   maxlength="8" minlength="1" name="number" placeholder="ABCDEF12">
 
-            <label for="bits">Pattern:</label>
-            <input type="number" maxlength="8" minlength="1" name="bits" value="0">
+            <label for="bits">Bits to rotate:</label>
+            <input type="number" maxlength="8" minlength="1" name="bits" value="4">
         </div>
 
         <div class="header">

@@ -53,3 +53,33 @@ function initialize(name, runner)
 }
 
 const arr_equals = (array1, array2) => array1.length === array2.length && array1.every((value, index) => value === array2[index]);
+const      isHex =      (numString) => { return Boolean(numString.match(/^[0-9a-f]+$/i)) };
+
+/**
+ *  values[] Object: {
+ *       name: string,
+ *      index: int,
+ *       test: function,
+ *      error: function
+ *  }
+ * 
+ *  returns inputArr
+ */
+function handleInputs(values)
+{
+    let inputArr = ["", "-1", "-1"];
+
+    const getValue = (valueObj) => {
+        let value = document.querySelector(`[name="${valueObj.name}"]`).value;
+    
+        if(valueObj.test(value))
+            inputArr[valueObj.index] = value;
+        else
+            console.log(valueObj.error(valueObj.name));
+    };
+
+    getValue(values[0]);
+    getValue(values[1]);
+
+    return inputArr;
+}

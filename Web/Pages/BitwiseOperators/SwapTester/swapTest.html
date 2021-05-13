@@ -7,7 +7,22 @@
         <script defer src="../../../WASI/wasi-memory-manager.js"></script>
         <script defer src="../../../WASI/wasi.js"></script>
         <script defer src="../../../WASI/instance.js"></script>
-        <script defer src="swapTest.js"></script>
+        <script>
+            // initialize WASI after page has loaded
+            window.addEventListener("DOMContentLoaded", () => {
+                initialize("swapTest", () => {
+                    let inputArr = handleInputs([{ name: "number1", index: 1, test: () => true },
+                                                 { name: "number2", index: 2, test: () => true }]);
+
+                    if(arr_equals(inputArr, ["", "", ""])) // no inputs provided
+                        wasi.args = [];
+                    else
+                        wasi.args = inputArr;
+
+                    main();
+                });
+            });
+        </script>
 
         <title>Bitwise XOR Swap Tester</title>
         <link rel="stylesheet" href="../../../style.css">

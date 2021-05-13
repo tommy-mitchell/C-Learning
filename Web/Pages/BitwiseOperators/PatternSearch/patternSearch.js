@@ -33,7 +33,7 @@ const patternRunner = () => {
         else if(inputArr[2] === "") // default second value
             wasi.args = [inputArr[0], inputArr[1], "AB"];
         else // both inputs
-            wasi.args = inputArr;
+            wasi.args = [...inputArr];
 
         main();
     }

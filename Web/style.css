@@ -155,6 +155,7 @@ blockquote > p {
 
 input {
     margin-right: 1em;
+    text-transform: uppercase;
 }
 
 .center {

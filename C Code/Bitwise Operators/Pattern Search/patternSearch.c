@@ -3,7 +3,8 @@
 #include <stdlib.h>
 #include <math.h>
 
-#define INT_LENGTH (sizeof(int) * CHAR_BIT)
+#define INT_LENGTH ( sizeof(int) * CHAR_BIT )
+#define BIT_N(num) ( (int) log2( ( num ) ) + 1 )
 typedef unsigned int uint;
 
 int bitPatternSearch(uint number, int pattern, int patternLength);
@@ -18,7 +19,7 @@ int main(int argc, char *argv[])
     {
         number  = strtoul(argv[1], NULL, 16);
         pattern =  strtol(argv[2], NULL, 16);
-        length  = (int) log2(pattern) + 1;
+        length  =   BIT_N(pattern);
     }
     else
     {
@@ -57,12 +58,13 @@ int bitPatternSearch(uint number, int pattern, int patternLength)
         return -1;
     }
 
-    const int mask = (1 << patternLength) - 1; // a mask of 1s for all bits not tested for
+    const int BITS = BIT_N(number); // number of bits in number
+    const int MASK = (1 << patternLength) - 1; // a mask of 1s for all bits not tested for
 
-    for(int index = 0; index < INT_LENGTH - 1; index++)
+    for(int index = 0; index < BITS - 1; index++)
     {
-        int shiftAmount = INT_LENGTH - patternLength - index;
-        uint  maskedNum = (number >> shiftAmount) & mask;
+        int shiftAmount = BITS - patternLength - index;
+        uint  maskedNum = (number >> shiftAmount) & MASK;
 
         if(!(maskedNum ^ pattern)) // compares the necessary bits to the pattern (gives 0 if same -> !)
             return index;

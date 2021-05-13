@@ -16,8 +16,8 @@ int main(int argc, char *argv[])
 
     if(argc > 1)
     {
-        number  = strtol(argv[1], NULL, 16);
-        pattern = strtol(argv[2], NULL, 16);
+        number  = strtoul(argv[1], NULL, 16);
+        pattern =  strtol(argv[2], NULL, 16);
         length  = (int) log2(pattern) + 1;
     }
     else

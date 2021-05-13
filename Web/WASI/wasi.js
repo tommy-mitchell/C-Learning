@@ -73,6 +73,7 @@ class Wasi
 		this.wasiMemoryManager = null;
 		this.stdoutText        = '';
 		this.stderrText 	   = '';
+		this.args			   = [];
 	}
 
 	// Initialise the instance from the WebAssembly.
@@ -84,6 +85,46 @@ class Wasi
 			instance.exports.free
 		);
 	};
+
+	args_sizes_get = (argc, argv_buf_size) => {
+        let buffer = new DataView(this.wasiMemoryManager.memory.buffer);
+
+        //console.log("args_sizes_get(", argc, ", ", argv_buf_size, ")");
+
+        buffer.setUint32(argc, this.args.length, true);
+
+        let buf_size = 0;
+        for(let arg of this.args)
+            buf_size += arg.length + 1;
+
+        buffer.setUint32(argv_buf_size, buf_size, true);
+        //console.log(buffer.getUint32(argc, true), buffer.getUint32(argv_buf_size, true));
+
+        return WASI_ESUCCESS;
+    };
+
+    args_get = (argv, argv_buf) => {
+        let buffer = new DataView(this.wasiMemoryManager.memory.buffer);
+        let buffer8 = new Uint8Array(this.wasiMemoryManager.memory.buffer);
+
+        //console.log("args_get(", argv, ", ", argv_buf, ")");
+
+        let orig_argv_buf = argv_buf;
+
+        for(let i = 0; i < this.args.length; i++)
+		{
+            buffer.setUint32(argv, argv_buf, true);
+            argv += 4;
+            let arg = new TextEncoder("utf-8").encode(this.args[i]);
+            buffer8.set(arg, argv_buf);
+            buffer.setUint8(argv_buf + arg.length, 0);
+            argv_buf += arg.length + 1;
+        }
+
+        //console.log(new TextDecoder("utf-8").decode(buffer8.slice(orig_argv_buf, argv_buf)));
+
+        return WASI_ESUCCESS;
+    };
 
   	// Get the environment variables.
 	environ_get = (environ, environBuf) => {
@@ -177,6 +218,33 @@ class Wasi
 		return WASI_ESUCCESS;
 	}
 
+	fd_read = (fd, iovs, iovsLen, nread) => {
+		// only care about 'stdout' and 'stderr'
+		if(!(fd === STDOUT | fd === STDERR))
+			return WASI_ERRNO_BADF;
+
+        /*let buffer  = new   DataView(this.wasiMemoryManager.memory.buffer);
+        let buffer8 = new Uint8Array(this.wasiMemoryManager.memory.buffer);
+
+        //console.log("fd_read(", fd, ", ", iovs_ptr, ", ", iovs_len, ", ", nread_ptr, ")");
+
+		buffer.setUint32(nread, 0, true);
+
+		for(let i = 0; i < iovsLen; i++) 
+		{
+			let [ ptr, len] = [buffer.getUint32(iovs + 8 * i, true), buffer.getUint32(iovs + 8 * i + 4, true)];
+			let [data, err] = fds[fd].read(len);
+
+			if(err != 0)
+				return err;
+
+			buffer8.set(data, ptr);
+			buffer.setUint32(nread, buffer.getUint32(nread, true) + data.length, true);
+		}*/
+		console.log("unimplemented fd_read");
+		return WASI_ESUCCESS;
+    }
+
 	fd_fdstat_get = (fd, stat) => {
 		// only care about 'stdout' and 'stderr'
 		if(!(fd === STDOUT | fd === STDERR))
@@ -195,12 +263,6 @@ class Wasi
 
 		return WASI_ESUCCESS;
 	}
-
-	/*args_sizes_get = (argc, argvBuf) => {
-		// argv: 
-	}
-
-	args_get*/
 }
 
 // override console.log() to instead write in output on page

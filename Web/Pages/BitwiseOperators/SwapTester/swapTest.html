@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en-US">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width">
+
+        <script defer src="../../../WASI/wasi-memory-manager.js"></script>
+        <script defer src="../../../WASI/wasi.js"></script>
+        <script defer src="../../../WASI/instance.js"></script>
+        <script defer src="swapTest.js"></script>
+
+        <title>Bitwise XOR Swap Tester</title>
+        <link rel="stylesheet" href="../../../style.css">
+    </head>
+    <body>
+        <h1>Bitwise XOR Swap Tester</h1>
+
+        <div class="header">
+            <h3>Overview</h3>
+        </div>
+
+        <p>
+            This program is a demonstration of the <a src="https://en.wikipedia.org/wiki/XOR_swap_algorithm">exclusive or (XOR) swap</a>, which is 
+            
+            <blockquote>
+                <p>an algorithm that uses the exclusive or bitwise operation to swap the values of two variables without using the temporary variable which is normally required.</p>
+            </blockquote>
+
+            While efficient in theory, the normal algorithm is usually as fast or faster due to advances in modern CPUs. Perhaps one use of the XOR swap is in
+            writing very-optimized assembly, when every byte of memory counts. Luckily, I'm not planning on doing that any time soon.
+        </p>
+
+        <div class="header">
+            <h3>Input: </h3>
+        </div>
+
+        <div id="input">
+            <label for="number1">Number 1:</label>
+            <input type="number" maxlength="10" minlength="1" name="number1" value="1">
+
+            <label for="number2">Number 2:</label>
+            <input type="number" maxlength="10" minlength="1" name="number2" value="2">
+        </div>
+
+        <div class="header">
+            <h3>Output: </h3>
+            <button id="run">Run</button>
+        </div>
+
+        <div id="output" style="height: 14em;">
+            <div class="waiting">> . </div>
+        </div>
+
+        <p id="src">Source: <a href="https://github.com/tommy-mitchell/C-Learning/blob/master/C Code/Bitwise Operators/Swap Tester/swapTest.c">swapTest.c</a></p>
+    </body>
+</html>

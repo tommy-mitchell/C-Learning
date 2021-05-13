@@ -1,5 +1,4 @@
-const arr_equals = (array1, array2) => array1.length === array2.length && array1.every((value, index) => value === array2[index]);
-const      isHex =      (numString) => { return Boolean(numString.match(/^[0-9a-f]+$/i)) };
+const isHex = (numString) => { return Boolean(numString.match(/^[0-9a-f]+$/i)) };
 
 function handleInputs()
 {
@@ -28,14 +27,16 @@ const patternRunner = () => {
     else // run
     {
         if(arr_equals(inputArr, ["", "", ""])) // no inputs provided
-            main(0, []);
+            wasi.args = [];
         else if(inputArr[1] === "") // default first value
-            main(3, [inputArr[0], "ABCDEF12", inputArr[2]]);
+            wasi.args = [inputArr[0], "ABCDEF12", inputArr[2]];
         else if(inputArr[2] === "") // default second value
-            main(3, [inputArr[0], inputArr[1], "AB"]);
+            wasi.args = [inputArr[0], inputArr[1], "AB"];
         else // both inputs
-            main(3, inputArr);
+            wasi.args = inputArr;
+
+        main();
     }
 };
 
-initialize("ps_debug", patternRunner); // CHANGETO: patternSearch
+initialize("patternSearch", patternRunner);

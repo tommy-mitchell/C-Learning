@@ -23,12 +23,13 @@
 
         <blockquote>
             <ol start="6">
-                <li>Write a function called bitpat_search() that looks for the occurrence of a specified pattern of bits inside an unsigned int. 
+                <li>
+                    Write a function called bitpat_search() that looks for the occurrence of a specified pattern of bits inside an unsigned int. 
                     The function should take three arguments and should be called as shown:
                 <br>
-                <br><i>bitpat_search(source, pattern, n)</i>
+                <br><span class="center"><i>bitpat_search(source, pattern, n)</i></span>
                 <br>
-                <br>The function searches the integer source, starting at the leftmost bit, to see if the rightmost n bits of pattern occur in source. 
+                    The function searches the integer source, starting at the leftmost bit, to see if the rightmost n bits of pattern occur in source. 
                     If the pattern is found, have the function return the number of the bit at which the pattern begins, 
                     where the leftmost bit is bit number 0. If the pattern is not found, then have the function return −1.
                 <br>
@@ -43,7 +44,7 @@
 
         <div id="input">
             <label for="number">Number:</label>
-            <input type="text" maxlength="8" minlength="1" name="number" placeholder="ABCDEF12">
+            <input type="text" maxlength="8" minlength="1" name="number"  placeholder="ABCDEF12">
 
             <label for="pattern">Pattern:</label>
             <input type="text" maxlength="8" minlength="1" name="pattern" placeholder="AB">

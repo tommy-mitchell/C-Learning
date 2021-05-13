@@ -11,7 +11,9 @@ async function initInstance(name)
         // initialize the wasi instance
         wasi.init(obj.instance);
 
-        main = wasi.instance.exports.main;//__main_argc_argv;
+        //main = wasi.instance.exports.main;
+        //main = wasi.instance.exports.__main_argc_argv;
+        main = wasi.instance.exports._start;
     });
 }
 
@@ -35,7 +37,7 @@ function initialize(name, runner)
     
             // delay for clear
             setTimeout(() => {
-                console.log(`Running '${name}.c'`);
+                console.log(`Running '${name}.c' . . .`);
                 
                 // delay as if it's "running"
                 setTimeout(() => {
@@ -49,3 +51,5 @@ function initialize(name, runner)
         };
     });
 }
+
+const arr_equals = (array1, array2) => array1.length === array2.length && array1.every((value, index) => value === array2[index]);

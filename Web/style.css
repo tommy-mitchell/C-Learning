@@ -143,6 +143,11 @@ blockquote > ol > li {
     padding-left: 3px;
 }
 
+blockquote > p {
+    padding-left: 30px;
+    padding-right: 5px;
+}
+
 #input {
     margin: 1em auto;
     max-width: max-content;
@@ -150,4 +155,9 @@ blockquote > ol > li {
 
 input {
     margin-right: 1em;
+}
+
+.center {
+    display: table;
+    margin: 0 auto;
 }

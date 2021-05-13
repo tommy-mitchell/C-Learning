@@ -8,22 +8,14 @@ typedef unsigned int uint;
 
 int bitPatternSearch(uint number, int pattern, int patternLength);
 
-void printString(char* string)
-{
-    printf("print: %s\n", string);
-}
-
 int main(int argc, char *argv[])
-{
-printString("test string");    
+{ 
     uint number  = 0;
     int  pattern = 0;
     int  length  = 0;
 
     if(argc > 1)
     {
-        printf("argc: %i\n", argc);
-        printf("0: %s, 1: %s, 2: %s\n", argv[0], argv[1], argv[2]);
         number  = strtol(argv[1], NULL, 16);
         pattern = strtol(argv[2], NULL, 16);
         length  = (int) log2(pattern) + 1;

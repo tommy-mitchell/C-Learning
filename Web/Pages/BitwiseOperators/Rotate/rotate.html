@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en-US">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width">
+
+        <script defer src="../../../WASI/wasi-memory-manager.js"></script>
+        <script defer src="../../../WASI/wasi.js"></script>
+        <script defer src="../../../WASI/instance.js"></script>
+        <script defer src="rotate.js"></script>
+
+        <title>Bit Rotation</title>
+        <link rel="stylesheet" href="../../../style.css">
+    </head>
+    <body>
+        <h1>Bit Rotation</h1>
+
+        <div class="header">
+            <h3>Overview</h3>
+        </div>
+
+        <p>This program was based on the following exercise from <i>Programming in C</i>, chapter 11:</p>
+
+        <blockquote>
+            <ol start="4">
+                <li>
+                    Write a function that rotates a value to the left or right. The process of rotation is similar to shifting, 
+                    except that when a value is rotated to the left, the bits that are shifted out of the high-order bits are 
+                    shifted back into the low-order bits. When a value is rotated to the right, the bits that are shifted out of 
+                    the low-order bits of the value are shifted back into the high-order bits. 
+                <br><br>
+                    The function takes two arguments: the first, the value to be rotated, and the second, the number of bits by 
+                    which the object is to be rotated. If this second argument is positive, you rotate the value to the left; 
+                    otherwise, you rotate the value to the right. The usage is as follows:
+                <br>
+                <span class="center"><i>rotate(unsigned int value, int n)</i></span>
+                <br>
+                    For example, to compute the result of rotating <i>x</i> to the left by <i>n</i> bits, where <i>x</i> is of type 
+                    'int' and <i>n</i> ranges from 0 to the number of bits in an 'int' minus 1, you can extract the leftmost <i>n</i> 
+                    bits of <i>x</i>, shift <i>x</i> to the left by <i>n</i> bits, and then put the extracted bits back into <i>x</i> 
+                    at the right. 
+                <br><br>
+                    Make certain that the function makes no assumptions about the size of an 'int'.
+                </li>
+            </ol>
+        </blockquote>
+
+        <div class="header">
+            <h3>Input: </h3>
+        </div>
+
+        <div id="input">
+            <label for="number">Number:</label>
+            <input type="text"   maxlength="8" minlength="1" name="number" placeholder="ABCDEF12">
+
+            <label for="bits">Pattern:</label>
+            <input type="number" maxlength="8" minlength="1" name="bits" value="0">
+        </div>
+
+        <div class="header">
+            <h3>Output: </h3>
+            <button id="run">Run</button>
+        </div>
+
+        <div id="output" style="height: 8em;">
+            <div class="waiting">> . </div>
+        </div>
+
+        <p id="src">Source: <a href="https://github.com/tommy-mitchell/C-Learning/blob/master/C Code/Bitwise Operators/Rotate/rotate.c">rotate.c</a></p>
+    </body>
+</html>

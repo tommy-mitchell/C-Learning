@@ -1,2 +1,5 @@
 test.bat
 /.vscode
+polyfill.js
+polyfill.wasm
+polyfill2.js

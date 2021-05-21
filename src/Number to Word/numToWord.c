@@ -1,6 +1,7 @@
 // takes a number string as an input, outputs the numerals as words
 
 #include <stdio.h>
+#include <string.h>
 
 #define NUMBER_LENGTH (10 + 1) // length + 1 for null terminator ('\0')
 #define charisNumber(c) (c >= '0' && c <= '9')
@@ -24,12 +25,17 @@ int charToInt(char c)
 	return c - '0';
 }
 
-int main(void)
+int main(int argc, char* argv[])
 {
 	char number[NUMBER_LENGTH];
 
-	printf("\nEnter a number (max %i digits): ", NUMBER_LENGTH - 1);
-		scanf("%10s", number);
+	if(argc > 1)
+		strncpy(number, argv[1], NUMBER_LENGTH);
+	else
+	{
+		printf("\nEnter a number (max %i digits): ", NUMBER_LENGTH - 1);
+			scanf("%10s", number);
+	}
 
 	printf("\n");
 

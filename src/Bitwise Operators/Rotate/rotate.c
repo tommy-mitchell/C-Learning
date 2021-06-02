@@ -30,7 +30,7 @@ int main(int argc, char* argv[])
 
     uint originalNumber = number;
 
-    rotate(&number, shiftAmount * sizeof(int));
+    rotate(&number, shiftAmount);
 
     printf("The number 0x%X rotated %i times: 0x%X\n", originalNumber, shiftAmount, number);
 
@@ -44,9 +44,10 @@ int main(int argc, char* argv[])
  * @param n      The number of rotations. Will rotate left if positive, right if negative.
  * 
  */
-void rotate(uint *number, int n)
+void rotate(uint *number, int n) // TODO: shifting is weird if there are leading zeros
 {
-    n = (n > 0) ? n % INT_LENGTH : -(-n % INT_LENGTH); // bounds n to length of an int
+    n *= sizeof(int);
+    n  = (n > 0) ? n % INT_LENGTH : -(-n % INT_LENGTH); // bounds n to length of an int
 
     if(n > 0) // shift left
         *number = (*number <<  n) | (*number >> (INT_LENGTH -  n));

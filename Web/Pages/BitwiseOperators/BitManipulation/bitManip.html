@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en-US">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width">
+
+        <script defer src="../../../WASI/wasi-memory-manager.js"></script>
+        <script defer src="../../../WASI/wasi.js"></script>
+        <script defer src="../../../WASI/instance.js"></script>
+        <script>
+            // initialize WASI after page has loaded
+            window.addEventListener("DOMContentLoaded", () => { 
+                initialize("bitManip", () => {
+                    if(wasi.stdinHandler === null)
+                    {
+                        wasi.stdinHandler = () => {
+                            text.value = "";
+                            hide.textContent = "";
+                            output.append(inputDiv);
+                            text.focus();
+
+                            let value;
+
+                            text.addEventListener("keydown", function textHandler(event) {
+                                if(event.key === "Enter")
+                                {
+                                    text.removeEventListener("keydown", textHandler);
+                                    text.style.display = "none";
+                                    hide.style.height = "unset";
+                                    hide.textContent = " " + hide.textContent;
+                                    
+                                    value = text.value;
+                                }
+                            });
+                        };
+                    }
+
+                    main();
+                });
+
+                resize(hide, text);
+                text.addEventListener("input", () => resize(hide, text));
+            });
+        </script>
+
+        <title>Bit Manipulation</title>
+        <link rel="stylesheet" href="../../../style.css">
+    </head>
+    <body>
+        <h1>Bit Manipulation</h1>
+
+        <div class="header">
+            <h3>Overview</h3>
+        </div>
+
+        <p>This program was based on the following exercise from <i>Programming in C</i>, chapter 11:</p>
+
+        <blockquote>
+            <ol start="5">
+                <li>
+                    Write a function called <i>bit_test()</i> that takes two arguments: an 'unsigned int' and a bit number <i>n</i>. 
+                    Have the function return 1 bit number <i>n</i> if it is on inside the word, and 0 if it is off. Assume that
+                    bit number 0 references the leftmost bit inside the integer. Also write a corresponding function called
+                    <i>bit_set()</i> that takes two arguments: an 'unsigned int' and a bit number <i>n</i>. Have the function 
+                    return the result of turning bit <i>n</i> on inside the integer.
+                </li>
+            </ol>
+        </blockquote>
+
+        <div class="header">
+            <h3>Output: </h3>
+            <button id="run">Run</button>
+        </div>
+
+        <div id="output" style="height: 5em;">
+            <div class="waiting">> . </div>
+        </div>
+
+        <p id="src">Source: <a href="https://github.com/tommy-mitchell/C-Learning/blob/master/src/Bitwise Operators/Bit Manipulation/bitManip.c">bitManip.c</a></p>
+    </body>
+</html>

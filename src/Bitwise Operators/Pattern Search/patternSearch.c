@@ -52,7 +52,7 @@ int main(int argc, char *argv[])
  */
 int bitPatternSearch(uint number, int pattern, int patternLength)
 {
-    if(patternLength <= 0 || patternLength >= INT_LENGTH)
+    if(patternLength <= 0 || patternLength >= INT_LENGTH) // TODO: change to be BITS
     {
         printf("Length out of bounds.\n");
         return -1;

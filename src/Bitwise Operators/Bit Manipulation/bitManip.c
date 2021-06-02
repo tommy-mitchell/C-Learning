@@ -70,42 +70,49 @@ void printMenu(int *choice)
 int main(void)
 {
     uint number;
-    int index;
-    int choice = 0;
+     int index;
+     int choice = 0;
+    
+    bool assigned = false;
 
     while(true)
     {
         printMenu(&choice);
 
-        if(choice==ENTER_NUMBER)
+        if(choice == EXIT)
+            break;
+        else if(choice == ENTER_NUMBER)
         {
             printf("Enter an 8-digit hexadecimal number: ");
                 scanf("%8x", &number);
                 printf("\n");
 
             printf("The number 0x%X has been saved.\n", number);
-        }
-        else if(choice==VIEW_NUMBER)
-        {
-            printf("Your number is 0x%X.\n", number);
-        }
-        else if(choice==SET_BIT || choice==TEST_BIT)
-        {
-            printf("Enter a bit index to %s: ", choice==SET_BIT ? "set" : "test");
-                scanf("%i", &index);
-                printf("\n");
 
-            if(choice==SET_BIT)
-            {
-                uint oldNum = number;
-                printf("The bit at index %i in the number 0x%X was %s.\n", index, oldNum, setBit(&number, index) ? "set" : "not set");
-                    printf("\tYour new number is 0x%X.\n", number);
-            }
-            else
-                printf("The bit at index %i in the number 0x%X is %s.\n" , index, number, testBit(number, index) ? "set" : "not set");
+            assigned = true;
         }
-        else if(choice==EXIT)
-            break;
+        else
+        {
+            if(!assigned)
+                printf("No number has been entered.\n");
+            else if(choice == VIEW_NUMBER)
+                printf("Your number is 0x%X.\n", number);
+            else if(choice == SET_BIT || choice == TEST_BIT)
+            {
+                printf("Enter a bit index to %s: ", choice == SET_BIT ? "set" : "test");
+                    scanf("%i", &index);
+                    printf("\n");
+
+                if(choice == SET_BIT)
+                {
+                    uint oldNum = number;
+                    printf("The bit at index %i in the number 0x%X was %s.\n", index, oldNum, setBit(&number, index) ? "set" : "not set");
+                        printf("\tYour new number is 0x%X.\n", number);
+                }
+                else
+                    printf("The bit at index %i in the number 0x%X is %s.\n" , index, number, testBit(number, index) ? "set" : "not set");
+            }
+        }
 
         choice = 0;
     }

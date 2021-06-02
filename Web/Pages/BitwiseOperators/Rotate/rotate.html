@@ -26,7 +26,7 @@
                         else if(inputArr[1] === "") // default first value
                             wasi.args = [inputArr[0], "ABCDEF12", inputArr[2]];
                         else if(inputArr[2] === "") // default second value
-                            wasi.args = [inputArr[0], inputArr[1], "AB"];
+                            wasi.args = [inputArr[0], inputArr[1], "4"];
                         else // both inputs
                             wasi.args = [...inputArr];
 
@@ -77,11 +77,11 @@
         </div>
 
         <div id="input">
-            <label for="number">Number:</label>
+            <label for="number" class="hex">Number:</label>
             <input type="text"   maxlength="8" minlength="1" name="number" placeholder="ABCDEF12">
 
             <label for="bits">Bits to rotate:</label>
-            <input type="number" maxlength="8" minlength="1" name="bits" value="4">
+            <input type="number" maxlength="8" minlength="1" name="bits" value="4" placeholder="4">
         </div>
 
         <div class="header">

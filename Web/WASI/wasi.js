@@ -46,8 +46,13 @@ const WASI_RIGHTS_PATH_UNLINK_FILE 		  =  67108864n;
 const WASI_RIGHTS_POLL_FD_READWRITE 	  = 134217728n;
 const WASI_RIGHTS_SOCK_SHUTDOWN 		  = 268435456n;
 
+const STDIN  = 0;
 const STDOUT = 1;
 const STDERR = 2;
+
+let inputted = false;
+const timeout = async ms => new Promise(res => setTimeout(res, ms));
+const delay = (time) => new Promise(resolve => setTimeout(() => resolve(), time));
 
 function drainWriter(write, prev, current)
 {
@@ -57,6 +62,23 @@ function drainWriter(write, prev, current)
 	{
 		const [line, rest] = text.split('\n', 2);
 		write(line);
+
+		console.warn("line: " + line + ", rest: " + rest);
+
+		if(line.includes("Enter"))
+		{
+			/*while(inputted === false)
+			{
+				(async () => {
+					await timeout(1000);
+				})();
+			}
+
+			inputted === false;*/
+
+			//console.warn("rest: " + rest);
+		}
+		
 		text = rest;
 	}
 
@@ -71,6 +93,7 @@ class Wasi
 		this.env 			   = env;
 		this.instance 		   = null;
 		this.wasiMemoryManager = null;
+		this.stdinHandler      = null;//() => console.log("No stdin handler.");
 		this.stdoutText        = '';
 		this.stderrText 	   = '';
 		this.args			   = [];
@@ -200,8 +223,8 @@ class Wasi
 
 		let    text = '';
 		let written = 0;
-		
-		// turn each buffer into a utf-8 string
+	
+		// turn each buffer into one long utf-8 string
 		buffers.forEach(buf => {
 			   text += textDecoder.decode(buf);
 			written += buf.byteLength;
@@ -210,8 +233,10 @@ class Wasi
 		// return the bytes written
 		view.setUint32(nwritten, written, true);
 
+		console.warn("text: " + text);
+
 		if(fd === STDOUT)
-			this.stdoutText = drainWriter(window.console.log,   this.stdoutText, text);
+			this.stdoutText = drainWriter(console.log,   this.stdoutText, text);
 		else if(fd == STDERR)
 			this.stderrText = drainWriter(console.error, this.stderrText, text);
 
@@ -219,29 +244,112 @@ class Wasi
 	}
 
 	fd_read = (fd, iovs, iovsLen, nread) => {
-		// only care about 'stdout' and 'stderr'
-		if(!(fd === STDOUT | fd === STDERR))
+		// only care about 'stdin'
+		if(fd !== STDIN)
 			return WASI_ERRNO_BADF;
+
+		const encoder = new TextEncoder();
+
+		const view = new DataView(this.wasiMemoryManager.memory.buffer);
+		view.setUint32(nread, 0, true);
+
+		// create a UInt8Array for each buffer
+		const buffers = Array.from({ length: iovsLen }, (_, i) => {
+			const    ptr = iovs + i * 8;
+			const    buf = view.getUint32(ptr, true);
+			const bufLen = view.getUint32(ptr + 4, true);
+
+			return new Uint8Array(this.wasiMemoryManager.memory.buffer, buf, bufLen);
+		});
+
+		// get input for each buffer and set them and the view
+		buffers.forEach(buf => {
+			//const input = "1\n";
+			console.warn("input");
+			/*let input = "1\n";
+			
+			this.stdinHandler().then(value => {
+				//input = value + '\n';
+				//inputted = true;
+				console.log(value);
+			});*/
+			let input = "1\n";
+
+			const getInput = async () => {
+				input = await this.stdinHandler() + '\n';
+				console.log(input);
+			};
+
+			getInput();
+
+			/*const data = (async (handler) => {
+				//return await handler() + '\n';
+				let val = await handler() + '\n';
+				console.log("data: " + val);
+				return val;
+			})(this.stdinHandler);
+
+			let data = "";
+			
+			const waitForInput = (func) => setTimeout(func, 500);
+
+			(async () => {
+				waitForInput(async () => {
+					await this.stdinHandler().then(value => {
+						data = value + '\n';
+						console.log("inputted: " + value);
+						return;
+					})
+				});
+			})();*/
+
+			buf.set(encoder.encode(input));
+			view.setUint32(nread, view.getUint32(nread, true) + input.length, true);
+		});
 
         /*let buffer  = new   DataView(this.wasiMemoryManager.memory.buffer);
         let buffer8 = new Uint8Array(this.wasiMemoryManager.memory.buffer);
 
-        //console.log("fd_read(", fd, ", ", iovs_ptr, ", ", iovs_len, ", ", nread_ptr, ")");
+        console.log("fd_read("+ fd+ ", "+ iovs+ ", "+ iovsLen+ ", "+ nread+ ")");
 
 		buffer.setUint32(nread, 0, true);
 
 		for(let i = 0; i < iovsLen; i++) 
 		{
-			let [ ptr, len] = [buffer.getUint32(iovs + 8 * i, true), buffer.getUint32(iovs + 8 * i + 4, true)];
+			let [ptr, len] = [buffer.getUint32(iovs + 8 * i, true), buffer.getUint32(iovs + 8 * i + 4, true)];
 			let [data, err] = fds[fd].read(len);
 
 			if(err != 0)
 				return err;
 
-			buffer8.set(data, ptr);
+			const data = (async (handler) => {
+				//return await handler() + '\n';
+				let val = await handler() + '\n';
+				console.log("data: " + val);
+				return val;
+			})(this.stdinHandler);
+
+			let data = "";
+			
+			const waitForInput = (func) => setTimeout(func, 500);
+
+			(async () => {
+				waitForInput(async () => {
+					await this.stdinHandler().then(value => {
+						data = value + '\n';
+						console.log("inputted: " + value);
+						return;
+					})
+				});
+			})();
+
+
+			console.log("data: " + data);
+			buffer8.set(new TextEncoder().encode(data), ptr);
 			buffer.setUint32(nread, buffer.getUint32(nread, true) + data.length, true);
+			console.log("input: " + buffer8);
 		}*/
-		console.log("unimplemented fd_read");
+		
 		return WASI_ESUCCESS;
     }
 

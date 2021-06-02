@@ -54,6 +54,7 @@ function initialize(name, runner)
 
 const arr_equals = (array1, array2) => array1.length === array2.length && array1.every((value, index) => value === array2[index]);
 const      isHex =      (numString) => { return Boolean(numString.match(/^[0-9a-f]+$/i)) };
+const      isNum =      (numString) => { return Boolean(numString.match(/^[0-9]+$/i)) };
 
 /**
  *  values[] Object: {
@@ -70,6 +71,9 @@ function handleInputs(values)
     let inputArr = ["", "-1", "-1"];
 
     const getValue = (valueObj) => {
+        if(valueObj === undefined)
+            return;
+
         let value = document.querySelector(`[name="${valueObj.name}"]`).value;
     
         if(valueObj.test(value))
@@ -83,3 +87,27 @@ function handleInputs(values)
 
     return inputArr;
 }
+
+function resize(hide, text)
+{
+    hide.textContent = text.value;
+    text.style.width = hide.offsetWidth + "px";
+}
+
+let inputDiv = document.createElement("div");
+    inputDiv.append(Object.assign(document.createElement("span"),  { 
+        innerHTML: "> " 
+    }));
+
+const hide = Object.assign(document.createElement("span"),  { 
+        id: "hide" 
+    });
+inputDiv.append(hide);
+
+const text = Object.assign(document.createElement("input"), { 
+        type: "text",
+        name: "stdin",
+        id: "text",
+        //autofocus: "true"
+    });
+inputDiv.append(text);

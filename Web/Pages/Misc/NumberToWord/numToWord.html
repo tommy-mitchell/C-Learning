@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en-US">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width">
+
+        <script defer src="../../../WASI/wasi-memory-manager.js"></script>
+        <script defer src="../../../WASI/wasi.js"></script>
+        <script defer src="../../../WASI/instance.js"></script>
+        <script>
+            // initialize WASI after page has loaded
+            window.addEventListener("DOMContentLoaded", () => {
+                initialize("numToWord", () => {
+                    let inputArr = handleInputs([{ name: "number", index: 1, 
+                                                   test:  value => value === "" || isNum(value),
+                                                  error:   name => `Error: '${name}' must be a number.`}]);
+
+                    if(inputArr[1] === "-1") // incorrect input
+                        console.log("Please correct your inputs.");
+                    else
+                    {
+                        if(arr_equals(inputArr, ["", "", ""])) // no inputs provided
+                            wasi.args = [];
+                        else if(inputArr[1] === "") // default first value
+                            wasi.args = [inputArr[0], "1234"];
+                        else
+                            wasi.args = [inputArr[0], inputArr[1]];
+
+                        main();
+                    }
+                });
+            });
+        </script>
+
+        <title>Number to Word</title>
+        <link rel="stylesheet" href="../../../style.css">
+    </head>
+    <body>
+        <h1>Number to Word</h1>
+
+        <div class="header">
+            <h3>Overview</h3>
+        </div>
+
+        <p>This program takes a given integer and converts each number in it to its word representation. (For example, "1" becomes "one," etc.)</p>
+
+        <div class="header">
+            <h3>Input: </h3>
+        </div>
+
+        <div id="input">
+            <label for="number">Number:</label>
+            <input type="text" maxlength="10" minlength="1" name="number" placeholder="1234">
+        </div>
+
+        <div class="header">
+            <h3>Output: </h3>
+            <button id="run">Run</button>
+        </div>
+
+        <div id="output" style="height: 5em;">
+            <div class="waiting">> . </div>
+        </div>
+
+        <p id="src">Source: <a href="https://github.com/tommy-mitchell/C-Learning/blob/master/src/Number to Word/numToWord.c">numToWord.c</a></p>
+    </body>
+</html>

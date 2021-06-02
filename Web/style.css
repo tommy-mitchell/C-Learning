@@ -162,3 +162,50 @@ input {
     display: table;
     margin: 0 auto;
 }
+
+.topic {
+    background: var(--background-alt);
+    margin: 10px -2.1%;
+    margin-left: -3%;
+    padding: 1px 5px 6px;
+    color: var(--text-bright);
+    font-weight: 600;
+    font-size: 110%;
+}
+
+#text {
+    padding: 0;
+    margin: 0;
+    
+    background: var(--background);
+    
+    font: inherit;
+    
+    color: transparent;
+    text-shadow: 0 0 0 var(--text-main);
+    
+    border: none;
+    border-right: 4px solid var(--text-main);
+}
+
+#text:focus {
+    outline: none;
+    
+    --anim: cursor steps(2, end) 1600ms infinite;
+    
+    animation: var(--anim);
+}
+
+@keyframes cursor {
+    to {
+        border: none;
+    }
+}
+
+#hide {
+    position: absolute;
+    height: 0;
+    overflow: hidden;
+    white-space: pre;
+    text-transform: uppercase;
+}

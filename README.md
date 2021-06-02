@@ -4,6 +4,8 @@ A repository to document my learning of C during the summer of 2019, using [this
 
 ## Online Demos
 
+An online version of this repository can be found [here](https://tommy-mitchell.github.io/C-Learning/).
+
 Using [WASI-SDK's](https://github.com/WebAssembly/wasi-sdk) included [wasi-libc](https://github.com/WebAssembly/wasi-libc), I compiled these demos into WebAssembly and implemented a barebones [WASI](https://wasi.dev/) interface in JavaScript following [this tutorial](https://rob-blackbourn.github.io/blog/webassembly/wasm/strings/javascript/c/libc/wasm-libc/clang/2020/06/20/wasm-stdout-stderr.html). I used the following command to compile each `.c` file:
 
     `clang --target=wasm32-unknown-wasi --sysroot=<sysroot> -O3 -flto -Wl,--export=malloc -Wl,--export-all -Wl,--lto-O3 src.c -o src.wasm`
